@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUCK YOU</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Impact', sans-serif;
+            cursor: none;
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, transparent 40%, #000 100%);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.15),
+                rgba(0,0,0,0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            z-index: 11;
+            pointer-events: none;
+            animation: scanMove 8s linear infinite;
+        }
+
+        @keyframes scanMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        .blood-drip {
+            position: fixed;
+            top: -10px;
+            width: 8px;
+            background: linear-gradient(to bottom, #ff0000, #8b0000);
+            border-radius: 0 0 50% 50%;
+            animation: drip linear infinite;
+            z-index: 5;
+            opacity: 0.9;
+        }
+
+        @keyframes drip {
+            0% { top: -10px; opacity: 0.9; }
+            100% { top: 110vh; opacity: 0; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 5;
+            position: relative;
+        }
+
+        .main-text {
+            font-size: clamp(50px, 12vw, 140px);
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            position: relative;
+            animation: mainGlitch 0.15s infinite;
+            text-shadow:
+                0 0 10px #ff0000,
+                0 0 20px #ff0000,
+                0 0 40px #ff0000,
+                0 0 80px #ff0000,
+                0 0 120px #ff0000;
+        }
+
+        .main-text::before {
+            content: "FUCK YOU";
+            position: absolute;
+            top: 2px; left: 4px;
+            color: #0ff;
+            z-index: -1;
+            animation: glitch1 0.1s infinite;
+            opacity: 0.8;
+        }
+
+        .main-text::after {
+            content: "FUCK YOU";
+            position: absolute;
+            top: -2px; left: -4px;
+            color: #f0f;
+            z-index: -2;
+            animation: glitch2 0.1s infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes mainGlitch {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-3px, 3px); filter: hue-rotate(90deg); }
+            40% { transform: translate(3px, -3px); filter: hue-rotate(180deg); }
+            60% { transform: translate(-3px, -3px); filter: hue-rotate(270deg); }
+            80% { transform: translate(3px, 3px); filter: hue-rotate(360deg); }
+            100% { transform: translate(0); filter: hue-rotate(0deg); }
+        }
+
+        @keyframes glitch1 {
+            0% { clip-path: inset(20% 0 60% 0); transform: translate(-5px); }
+            25% { clip-path: inset(60% 0 10% 0); transform: translate(5px); }
+            50% { clip-path: inset(10% 0 70% 0); transform: translate(-3px); }
+            75% { clip-path: inset(80% 0 5% 0); transform: translate(3px); }
+            100% { clip-path: inset(40% 0 40% 0); transform: translate(-5px); }
+        }
+
+        @keyframes glitch2 {
+            0% { clip-path: inset(60% 0 20% 0); transform: translate(5px); }
+            25% { clip-path: inset(10% 0 60% 0); transform: translate(-5px); }
+            50% { clip-path: inset(70% 0 10% 0); transform: translate(3px); }
+            75% { clip-path: inset(5% 0 80% 0); transform: translate(-3px); }
+            100% { clip-path: inset(40% 0 40% 0); transform: translate(5px); }
+        }
+
+        .skull-container {
+            font-size: clamp(80px, 15vw, 160px);
+            margin-bottom: 10px;
+            animation: skullBounce 0.3s infinite alternate;
+            filter: drop-shadow(0 0 30px #ff0000) drop-shadow(0 0 60px #ff0000);
+        }
+
+        @keyframes skullBounce {
+            from { transform: scale(1) rotate(-5deg); }
+            to { transform: scale(1.15) rotate(5deg); }
+        }
+
+        .flicker {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #ff0000;
+            opacity: 0;
+            z-index: 3;
+            pointer-events: none;
+            animation: flickerBg 0.1s infinite;
+        }
+
+        @keyframes flickerBg {
+            0% { opacity: 0; }
+            50% { opacity: 0.05; }
+            100% { opacity: 0; }
+        }
+
+        .timer {
+            color: #ff0000;
+            font-size: 30px;
+            margin-top: 30px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            animation: timerPulse 0.5s infinite alternate;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+        }
+
+        @keyframes timerPulse {
+            from { opacity: 0.5; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1.05); }
+        }
+
+        .warning {
+            color: #ff4400;
+            font-size: 14px;
+            margin-top: 15px;
+            animation: blink 0.3s infinite;
+            letter-spacing: 3px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .corner {
+            position: fixed;
+            width: 0; height: 0;
+            border: 40px solid transparent;
+            z-index: 6;
+            animation: cornerPulse 0.5s infinite alternate;
+        }
+
+        .corner.tl { top: 0; left: 0; border-top-color: #ff0000; border-left-color: #ff0000; }
+        .corner.tr { top: 0; right: 0; border-top-color: #ff0000; border-right-color: #ff0000; }
+        .corner.bl { bottom: 0; left: 0; border-bottom-color: #ff0000; border-left-color: #ff0000; }
+        .corner.br { bottom: 0; right: 0; border-bottom-color: #ff0000; border-right-color: #ff0000; }
+
+        @keyframes cornerPulse {
+            from { opacity: 0.3; }
+            to { opacity: 1; }
+        }
+
+        .eye {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0; left: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .eye::before {
+            content: "👁️";
+            position: absolute;
+            font-size: 30px;
+            animation: eyeFollow 2s infinite;
+        }
+
+        @keyframes eyeFollow {
+            0% { top: 20%; left: 10%; }
+            25% { top: 70%; left: 80%; }
+            50% { top: 30%; left: 60%; }
+            75% { top: 80%; left: 20%; }
+            100% { top: 20%; left: 10%; }
+        }
+
+        .bg-text {
+            position: fixed;
+            color: rgba(255, 0, 0, 0.08);
+            font-size: 120px;
+            font-weight: 900;
+            transform: rotate(-30deg);
+            white-space: nowrap;
+            z-index: 1;
+            pointer-events: none;
+            animation: bgScroll 10s linear infinite;
+        }
+
+        @keyframes bgScroll {
+            from { transform: rotate(-30deg) translateX(-100%); }
+            to { transform: rotate(-30deg) translateX(100vw); }
+        }
+
+        .crazy {
+            position: fixed;
+            font-size: 40px;
+            z-index: 4;
+            pointer-events: none;
+            animation: crazyFloat 3s linear infinite;
+        }
+
+        @keyframes crazyFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .shake {
+            animation: hardShake 0.05s infinite;
+        }
+
+        @keyframes hardShake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-5px, 5px); }
+            50% { transform: translate(5px, -5px); }
+            75% { transform: translate(-5px, -5px); }
+            100% { transform: translate(5px, 5px); }
+        }
+
+        .bottom-fire {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top,
+                rgba(255,69,0,0.9),
+                rgba(255,0,0,0.6),
+                rgba(255,140,0,0.3),
+                transparent
+            );
+            z-index: 5;
+            pointer-events: none;
+            animation: fireWave 0.2s infinite alternate;
+        }
+
+        @keyframes fireWave {
+            from { height: 150px; opacity: 0.8; }
+            to { height: 200px; opacity: 1; }
+        }
+
+        .top-fire {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom,
+                rgba(255,0,0,0.6),
+                rgba(255,69,0,0.3),
+                transparent
+            );
+            z-index: 5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="shake">
+    <div class="vignette"></div>
+    <div class="scanlines"></div>
+    <div class="flicker"></div>
+
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+
+    <div class="top-fire"></div>
+    <div class="bottom-fire"></div>
+
+    <div class="eye"></div>
+
+    <div class="bg-text">FUCK YOU FUCK YOU FUCK YOU</div>
+
+    <div class="container">
+        <div class="skull-container">🖕</div>
+        <div class="main-text">FUCK YOU</div>
+        <div class="warning">!! SYSTEM COMPROMISED !!</div>
+        <div class="timer">REDIRECT IN <span id="count">3</span> SEC</div>
+    </div>
+
+    <script>
+        let c = 3;
+        const el = document.getElementById('count');
+
+        setInterval(() => {
+            c--;
+            el.textContent = c;
+            if (c <= 0) {
+                window.location.href = 'https://t.me/ALXADM1';
+            }
+        }, 1000);
+
+        // Random screen flash
+        setInterval(() => {
+            document.body.style.filter = `brightness(${Math.random() * 0.4 + 0.6}) contrast(${Math.random() * 50 + 100}%)`;
+        }, 80);
+
+        // Blood drips
+        for (let i = 0; i < 20; i++) {
+            const drip = document.createElement('div');
+            drip.className = 'blood-drip';
+            drip.style.left = Math.random() * 100 + 'vw';
+            drip.style.height = Math.random() * 100 + 50 + 'px';
+            drip.style.animationDuration = Math.random() * 3 + 2 + 's';
+            drip.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(drip);
+        }
+
+        // Floating symbols
+        const symbols = [' middle_finger', ' skull', ' fire', ' knife', ' warning', ' ghost'];
+        for (let i = 0; i < 15; i++) {
+            const s = document.createElement('div');
+            s.className = 'crazy';
+            s.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.animationDuration = Math.random() * 4 + 2 + 's';
+            s.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(s);
+        }
+
+        // Random body class toggle for extra shake
+        setInterval(() => {
+            document.body.classList.toggle('shake');
+        }, 200);
+    </script>
+</body>
+  </html>
